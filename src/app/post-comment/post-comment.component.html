@@ -1,0 +1,19 @@
+
+
+  <div class="card-header">Posted on: {{comment.postDate | date: 'shortDate'}}</div>
+  <h4 class="card-title">{{comment.nick}}</h4>
+  <p class="card-text">{{comment.content}}</p>
+
+
+<div >
+  <ul class="list-group">
+    <li *ngFor="let reply of comment.replies;" class="list-group-item">
+        <div class="card-header">{{reply.replyDate | date: 'shortDate'}}</div>
+        <h4 class="card-title">{{reply.nick}}</h4>
+        <p class="card-text">{{reply.content}}</p>
+    </li>
+  </ul>
+</div>
+
+
+ 

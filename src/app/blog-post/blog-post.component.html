@@ -1,0 +1,103 @@
+
+
+<div class="jumbotron">
+    <div id="head">
+        <h1 *ngIf="!isInEditMode" class="display-3">Title: {{post.title}}</h1>    
+        <h2 class="text-muted">Date of publishing: {{post.date | date: 'shortDate'}}</h2>
+        <p class="lead ">{{post.content}}</p>
+        <p class="lead">
+            <button class="btn btn-primary btn-lg" (click)="toggleEditMode()">Edit title</button>     
+        </p>
+        <p class="lead">
+            <input *ngIf="isInEditMode" type="text" [(ngModel)]="post.title" class="form-control-lg"/>
+        </p>
+    </div>
+</div>
+
+
+<div *ngIf="!isCommentInEditMode && !isInReplyMode" >
+    
+<div class="card my-4">
+
+    <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+
+        <form (ngSubmit)="onSumbmit(commentForm)" #commentForm="ngForm">
+            <div class="form-group">
+                <label for="nick">Nick: </label>
+                <input ngModel type="text" name = 'nick' id="nick" class="form-control" rows="1"/>
+                <label for="commentText">Comment:</label>
+                <textarea ngModel type="text" name='commentText' id="commentText" class="form-control" rows="3"></textarea>
+                <hr class="my-6">
+                <input type="submit" value="Send" class="btn btn-success btn-lg btn-block"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+    
+
+    <h2>Comments:</h2>
+    <ul class="list-group" >
+        <li *ngFor="let comment of post.comments; let idx=index" class="list-group-item">
+            <button *ngIf="!isCommentInEditMode" (click)="editComment(comment,idx)" class="btn btn-link">Edit</button>
+            <button (click)="deleteComment(comment,idx)" class="btn btn-link">Delete</button>
+            <post-comment [comment] ="comment"></post-comment>
+            <button *ngIf="!isInReplyMode" (click)="replyComment(comment,idx)" class="btn btn-success btn-lg btn-block">Reply</button>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="isCommentInEditMode">
+
+<div class="card my-4">    
+    <h3 class="card-header">Edit your comment: </h3>
+    <div class="card-body">
+        <h4 class="card-title">{{post.comments[editedComment].nick}}
+            posted on {{post.comments[editedComment].postDate | date: 'shortDate'}}
+        </h4>
+        <p class="card-text">{{post.comments[editedComment].content}}</p>
+    
+        <div class="form-group">
+        <form (ngSubmit)="onCommentEditSumbmit(commentEditForm)" #commentEditForm="ngForm">
+            <label for="nick">Nick: </label>
+            <input type="text" name = 'nick' id="nick" [ngModel]="post.comments[editedComment].nick" class="form-control" rows="1"/>
+            <label for="commentText">Comment:</label>
+            <textarea type="text" name='commentText' id="commentText" [ngModel]="post.comments[editedComment].content" class="form-control" rows="3"></textarea>
+            <hr class="my-6">
+            <input type="submit" value="Accept" class="btn btn-success btn-lg btn-block"/>
+        </form>
+        <hr class="my-6">
+        <button (click)='finishEditing();' class="btn btn-primary btn-lg btn-block">Finish edit</button>
+        </div>
+    </div>
+</div>  
+</div>
+
+<div *ngIf="isInReplyMode">
+    <div class="card my-4">    
+    <h3 class="card-header">Reply to the comment</h3>
+    <div class="card-body">
+        <h4 class="card-title">
+            {{post.comments[repliedComment].nick}} posted on: 
+            {{post.comments[repliedComment].postDate | date: 'shortDate'}} 
+        </h4>
+        <p class="card-text">{{post.comments[repliedComment].content}}</p>
+    
+    <div class="form-group">
+    <form (ngSubmit)="onReplySumbmit(replyForm)" #replyForm="ngForm">
+            <label for="nick">Nick: </label>
+            <input type="text" name = 'nick' id="nick" ngModel class="form-control" rows="1"/>
+            <label for="replyText">Comment:</label>
+            <textarea type="text" name='replyText' id="replyText" ngModel class="form-control" rows="3"></textarea>
+            <hr class="my-6">
+            <input type="submit" value="Post reply" class="btn btn-success btn-lg btn-block"/>
+    </form>
+    <hr class="my-6">
+    <button (click)='finishReply();' class="btn btn-primary btn-lg btn-block">Finish replying</button>
+    </div>
+    </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,11 @@
+.jumbotron {
+    background-image: url('/assets/back_img.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+}
+
+#head {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+}
