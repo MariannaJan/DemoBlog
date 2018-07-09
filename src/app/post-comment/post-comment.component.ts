@@ -8,7 +8,7 @@ import { Input} from '@angular/core';
 })
 export class PostCommentComponent {
 
-  @Input() comment: string;
+  @Input() comment;
 
 }
 
